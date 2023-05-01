@@ -859,8 +859,6 @@ class CalendarApp(ui_main_window, main_window):
         if user.user_type == self.apman.tools.admin_user:
             self.ui.page_widget.setCurrentIndex(self.apman.pages.admin)
             self.get_user_list()
-            for user in self.userlist:
-                self.ui.admin_combo_box_user_name.addItem(user.user_name)
 
             self.ui.admin_te_finish_time.setTime(finis_time)
             self.ui.admin_te_start_time.setTime(start_time)
