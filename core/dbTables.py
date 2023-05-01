@@ -8,7 +8,7 @@ class DbTabes:
         """Kullanıcılar tablosunun ismini verir
 
         Returns:
-            str: kullanıcılar tablo ismi
+            str: kullanicilar
         """
         return "kullanicilar"
 
@@ -17,16 +17,16 @@ class DbTabes:
         """Olay Tanımlamaları tablosunun ismini verir
 
         Returns:
-            str: olay tanımlamaları tablo ismi
+            str: 'olay_tanimlamalari'
         """
         return "olay_tanimlamalari"
 
     @property
-    def evets(self) -> str:
+    def events(self) -> str:
         """Olaylar tablosunun ismini verir
 
         Returns:
-            str: olaylar tablo ismi
+            str: 'olaylar'
         """
         return "olaylar"
 
@@ -35,7 +35,7 @@ class DbTabes:
         """Tablolar için 'id' verir
 
         Returns:
-            str: id
+            str: 'id'
         """
         return "id"
 
@@ -44,7 +44,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'tc_no' verir
 
         Returns:
-            str: tc_no
+            str: 'tc_no'
         """
         return "tc_no"
 
@@ -53,7 +53,7 @@ class DbTabes:
         """Tablolar için 'ad' verir
 
         Returns:
-            str: ad
+            str: 'ad'
         """
         return "ad"
 
@@ -62,7 +62,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'soyad' verir
 
         Returns:
-            str: soyad
+            str: 'soyad'
         """
         return "soyad"
 
@@ -71,7 +71,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'kullanıcı_adi' verir
 
         Returns:
-            str: kullanici_adi
+            str: 'kullanici_adi'
         """
         return "kullanici_adi"
 
@@ -80,7 +80,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'sifre' verir
 
         Returns:
-            str: sifre
+            str: 'sifre'
         """
         return "sifre"
 
@@ -89,7 +89,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'telefon' verir
 
         Returns:
-            str: telefon
+            str: 'telefon'
         """
         return "telefon"
 
@@ -98,7 +98,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'eposta' verir
 
         Returns:
-            str: eposta
+            str: 'eposta'
         """
         return "eposta"
 
@@ -107,7 +107,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'adres' verir
 
         Returns:
-            str: adres
+            str: 'adres'
         """
         return "adres"
 
@@ -116,7 +116,7 @@ class DbTabes:
         """Kullanıcılar tablosunda 'kullanici_tipi' verir
 
         Returns:
-            str: kullanici_tipi
+            str: 'kullanici_tipi'
         """
         return "kullanici_tipi"
 
@@ -125,7 +125,7 @@ class DbTabes:
         """Olaylar tablosunda 'kullanici_id' verir
 
         Returns:
-            str: kullanici_id
+            str: 'kullanici_id'
         """
         return "kullanici_id"
 
@@ -134,7 +134,7 @@ class DbTabes:
         """Olaylar tablosunda 'olay_id' verir
 
         Returns:
-            str: olay_id
+            str: 'olay_id'
         """
         return "olay_id"
 
@@ -143,7 +143,7 @@ class DbTabes:
         """Olaylar tablosunda 'tarih' verir
 
         Returns:
-            str: tarih
+            str: 'tarih'
         """
         return "tarih"
 
@@ -152,7 +152,7 @@ class DbTabes:
         """Olaylar tablosunda 'baslangic' verir
 
         Returns:
-            str: baslangic
+            str: 'baslangic'
         """
         return "baslangic"
 
@@ -161,6 +161,23 @@ class DbTabes:
         """Olaylar tablosunda 'bitis' verir
 
         Returns:
-            str: bitis
+            str: 'bitis'
         """
         return "bitis"
+
+    @property
+    def description(self) -> str:
+        """Olaylar tablosundan 'aciklama' verir
+
+        Returns:
+            str: 'aciklama'"""
+        return "aciklama"
+
+    @property
+    def reminder_time(self) -> str:
+        """Etkinlik tablosundan 'hatirlatma_zamani' verir
+
+        Returns:
+            str: 'hatirlatma_zamani'
+        """
+        return "hatirlatma_zamani"

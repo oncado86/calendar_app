@@ -1,4 +1,4 @@
-class EventTypes:
+class EventType:
     """Olay tanımlamalarının tutulduğu varlık sınıfı
 
     @category: Entity Class"""
@@ -8,7 +8,7 @@ class EventTypes:
 
         @category: Entity Class"""
 
-        self._id: int = 0
+        self._id = -1
         self._name: str = ""
 
     @property
@@ -27,7 +27,7 @@ class EventTypes:
         Args:
             value (int): olay id bilgisi
         """
-        self.id = value
+        self._id = value
 
     @property
     def name(self) -> str:
@@ -45,4 +45,4 @@ class EventTypes:
         Args:
             value (str): olay isim bilgisi
         """
-        self.name = value
+        self._name = value

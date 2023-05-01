@@ -7,7 +7,7 @@ class User:
         """Kullanıcı verilerinin tutulduğu varlık sınıfı
 
         @category: Entity Class"""
-        self._id: int = 1
+        self._id = -1
         self._tc: str = ""
         self._first_name: str = ""
         self._last_name: str = ""
@@ -34,7 +34,7 @@ class User:
         Args:
             value (int): kullanıcı id bilgisi
         """
-        self.id = value
+        self._id = value
 
     @property
     def tc(self) -> str:
@@ -52,7 +52,7 @@ class User:
         Args:
             value (str): kullanıcı TC bilgisi
         """
-        self.tc = value
+        self._tc = value
 
     @property
     def first_name(self) -> str:
@@ -88,7 +88,7 @@ class User:
         Args:
             value (str): kullanıcı soyad bilgisi
         """
-        self.last_name = value
+        self._last_name = value
 
     @property
     def user_name(self) -> str:
@@ -106,7 +106,7 @@ class User:
         Args:
             value (str): kullanıcı adı
         """
-        self.user_name = value
+        self._user_name = value
 
     @property
     def password(self) -> str:
@@ -124,7 +124,7 @@ class User:
         Args:
             value (str): kullanıcı şifresi
         """
-        self.password = value
+        self._password = value
 
     @property
     def email(self) -> str:
@@ -142,7 +142,7 @@ class User:
         Args:
             value (str): kullanıcı e-posta bilgisi
         """
-        self.email = value
+        self._email = value
 
     @property
     def phone(self) -> str:
@@ -160,7 +160,7 @@ class User:
         Args:
             value (str): kullanıcı telefon numarası
         """
-        self.phone = value
+        self._phone = value
 
     @property
     def address(self) -> str:
@@ -178,7 +178,7 @@ class User:
         Args:
             value (str): kullanıcı adres bilgisi
         """
-        self.address = value
+        self._address = value
 
     @property
     def user_type(self) -> str:
@@ -196,4 +196,4 @@ class User:
         Args:
             value (str, optional): kullanıcı tipi. Defaults to "1".
         """
-        self.user_type = value
+        self._user_type = value

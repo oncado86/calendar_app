@@ -15,10 +15,17 @@ class ISqliteDbHelper:
 
     @property
     @interface
-    def sql(self):
+    def query(self) -> str:
         raise NotImplementedError("This is not implemented 'sql' from ISqliteDbHelper")
 
-    @sql.setter
+    @query.setter
     @interface
-    def sql(self, query: str):
-        raise NotImplementedError("This is not implemented 'sql' from ISliceDbHelper")
+    def query(self, query: str) -> None:
+        raise NotImplementedError("This is not implemented 'sql' from ISqliteDbHelper")
+
+    @property
+    @interface
+    def tbl_values(self):
+        raise NotImplementedError(
+            "This is not implemented 'tbl_values' from ISqliteDbHelper"
+        )
