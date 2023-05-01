@@ -1,5 +1,5 @@
 # Calendar APP
-Bondsman Takvim uygulaması Python dili ile geliştirilmiş olan, etkinlik takip özelliği olan takvim uygulamasıdır.
+Bondsman Takvim uygulaması Python dili ile geliştirilmiş olan, etkinlik takip özelliğine sahip takvim uygulamasıdır.
 
 
 Griş Ekranı:
