@@ -143,33 +143,3 @@ class EventDal(db_helper):
             im.execute(self.query)
             return im.fetchone()[0]
 
-    def get_event(self, date: str, start: str, finish: str) -> Event:
-        """Veritabanındaki belirli bir olayı verir
-
-        Args:
-            date (str): olay tarihi
-            start (str): olay başlangıç saati
-            finish (str): olay bitiş saati
-
-        Returns:
-            Event: olay bilgileri
-        """
-        event = Event()
-
-        self.sql = f"SELECT * FROM {self.tbl_values.events} WHERE {self.tbl_values.date} = '{date}' AND {self.tbl_values.start} = '{start}' AND {self.tbl_values.finish} = '{finish}'"
-
-        with self.connect as cn:
-            im = cn.cursor()
-            im.execute(self.query)
-            values = im.fetchall()
-
-            for value in values:
-                event.id = value[0]
-                event.user = self._udal.get_user(value[1])
-                event.event_type = self._etdal.get_event_type(value[2])
-                event.date = value[3]
-                event.start_time = value[4]
-                event.finish_time = value[5]
-                event.description = value[6]
-
-        return event

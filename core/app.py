@@ -24,11 +24,10 @@ class APP:
 
     def __init__(self) -> None:
         self._manager: MANAGER = MANAGER()
-        self._entities: ENTITIES = ENTITIES()
         self._pages: PAGES = PAGES()
         self._tools: TOOLS = TOOLS()
         self._user: User = User()
-        self._table = TABLEWIDGET()
+        self._table: TABLEWIDGET = TABLEWIDGET()
 
     @property
     def managers(self):
@@ -38,15 +37,6 @@ class APP:
             manager: manager
         """
         return self._manager
-
-    # @property
-    # def entities(self):
-    #     """Entity sınıflarını verir
-
-    #     Returns:
-    #         entity: entity
-    #     """
-    #     return self._entities
 
     @property
     def pages(self):
@@ -99,9 +89,9 @@ class MANAGER:
     """
 
     def __init__(self) -> None:
-        self._user = UserManager()
-        self._event_manager = EventManager()
-        self._event_type_manager = EventTypeManager()
+        self._user: UserManager = UserManager()
+        self._event_manager: EventManager = EventManager()
+        self._event_type_manager: EventTypeManager = EventTypeManager()
 
     @property
     def user(self):
@@ -128,45 +118,6 @@ class MANAGER:
             manager: event type
         """
         return self._event_type_manager
-
-
-class ENTITIES:
-    """Uygulamayla ilgili Entity sınıflarının tutulduğu sınıf
-
-    @see: User, Event, EventType
-    @category: Business, Manager, Tool
-    """
-
-    def __init__(self) -> None:
-        self._user = User()
-        self._event = Event()
-        self._event_type = EventType()
-
-    @property
-    def user(self):
-        """User sınıfınıverir
-
-        Returns:
-            entity: user
-        """
-        return self._user
-
-    @property
-    def event(self):
-        """Event sınıfını verir
-
-        Returns:
-            entity: event"""
-        return self._event
-
-    @property
-    def event_type(self):
-        """EventType sınıfını verir
-
-        Returns:
-            entity: event type
-        """
-        return self._event_type
 
 
 class PAGES:
@@ -453,7 +404,7 @@ class TOOLS:
         Returns:
             datetime: güncel zaman
         """
-        now = datetime.now().strftime("%H:%M:%S")
+        now: str = datetime.now().strftime("%H:%M:%S")
         return datetime.strptime(now, "%H:%M:%S")
 
     def time_difference(self, time_now: datetime, time_event_start: str) -> float:
@@ -466,7 +417,7 @@ class TOOLS:
         Returns:
             float: kalan saniye
         """
-        time_next = datetime.strptime(time_event_start, "%H:%M:%S")
+        time_next: datetime = datetime.strptime(time_event_start, "%H:%M:%S")
         return (time_next - time_now).total_seconds()
 
     def timer_later_events(self, events: list[Event]) -> list[Event]:
@@ -478,8 +429,8 @@ class TOOLS:
         Returns:
             list[Event]: etkinlik listesi
         """
-        now = self.time
-        event_list = []
+        now: datetime = self.time
+        event_list: list[Event] = []
         for event in events:
             start_time = datetime.strptime(event.start_time, "%H:%M:%S")
             if start_time > now:
@@ -605,13 +556,13 @@ class TOOLS:
         Args:
             event (Event): etkinlik bilgisi
         """
-        after_time = event.remember_time
-        description = event.description
-        start_time = event.start_time
-        finish_time = event.finish_time
-        etype = event.event_type.name
-        message = f"{description} etkinliği artık başladı!"
-        detial = f"Etkinlik açıklaması: {description}\nBaşlama Saati: {start_time}\nBitiş Saati: {finish_time}\nEtkinlik Tipi: {etype}"
+        after_time: int = event.remember_time
+        description: str = event.description
+        start_time: str = event.start_time
+        finish_time: str = event.finish_time
+        etype: str = event.event_type.name
+        message: str = f"{description} etkinliği artık başladı!"
+        detial: str = f"Etkinlik açıklaması: {description}\nBaşlama Saati: {start_time}\nBitiş Saati: {finish_time}\nEtkinlik Tipi: {etype}"
         if after_time > 0:
             message = f"{description} etkinliği {after_time} dakika sonra başlayacak!"
         msg_box = message_box()

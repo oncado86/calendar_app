@@ -108,27 +108,3 @@ class EventTypeDal(db_helper):
             im = cn.cursor()
             im.execute(self.query)
             cn.commit()
-
-    def get_event_type(self, event_id: int) -> EventType:
-        """Veritabanından etkinlik verilerini getirmeyi sağlar.
-
-        Args:
-            id (int): etkinlik id
-
-        Returns:
-            EventType: etkinlik bilgileri
-        """
-
-        self.query = f"SELECT * FROM {self.tbl_values.event_types} WHERE {self.tbl_values.id} = {event_id}"
-
-        event = EventType()
-        with self.connect as cn:
-            im = cn.cursor()
-            im.execute(self.query)
-            values = im.fetchall()
-
-            for value in values:
-                event.id = value[0]
-                event.name = value[1]
-
-        return event

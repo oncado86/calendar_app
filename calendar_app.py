@@ -297,6 +297,7 @@ class CalendarApp(ui_main_window, main_window):
 
         self.event_list = self.apman.managers.event.get_all_events(user, date, text)
         table.clear()
+        
 
         self.apman.table.set_table(
             table,
