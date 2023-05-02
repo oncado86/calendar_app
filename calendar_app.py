@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
 )
 
 from PyQt5.QtCore import QDate, QTime, QTimer
+from entity.eventType import EventType
 from entity.user import User
 from entity.event import Event
 from ui.cp_ui import Ui_MainWindow as ui_main_window
@@ -26,14 +27,14 @@ class CalendarApp(ui_main_window, main_window):
         """
         super().__init__()
 
-        self.apman = APP()
+        self.apman: APP = APP()
         self.init_ui()
 
-        self.userlist = []
-        self.event_type_list = []
-        self.event_list = []
-        self.timer_event_list = []
-        self.finished_event = self.apman.entities.event
+        self.userlist: list[User] = []
+        self.event_type_list: list[EventType] = []
+        self.event_list: list[Event] = []
+        self.timer_event_list: list[Event] = []
+        self.finished_event: Event = Event()
         self._timer()
 
     # * --------------------------------------------------------------
@@ -41,8 +42,8 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     def _timer(self) -> None:
         """Zaman sayacındaki sayı kadar saniye saymayı ayarlar"""
-        self.timer = QTimer()
-        self.timer_count = 0
+        self.timer: QTimer = QTimer()
+        self.timer_count: float = 0
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.timer_counter)
 
@@ -64,7 +65,7 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     def init_ui(self) -> None:
         """Arayüzü ayarlar ve ekranda gösterir."""
-        self.ui = ui_main_window()
+        self.ui: ui_main_window = ui_main_window()
         self.ui.setupUi(self)
 
         # Arayüz fonksiyonları
@@ -121,7 +122,7 @@ class CalendarApp(ui_main_window, main_window):
             if len(self.userlist) > 0 and (
                 0 <= self.ui.tw_admin_users.currentRow() <= len(self.userlist)
             ):
-                user = self.userlist[self.ui.tw_admin_users.currentRow()]
+                user: User = self.userlist[self.ui.tw_admin_users.currentRow()]
                 self.ui.le_admin_user_account_tc.setText(user.tc)
                 self.ui.le_admin_user_account_user_name.setText(user.user_name)
                 self.ui.le_admin_user_account_first_name.setText(user.first_name)
@@ -144,7 +145,9 @@ class CalendarApp(ui_main_window, main_window):
                 <= self.ui.tw_admin_event_types.currentRow()
                 <= len(self.event_type_list)
             ):
-                etype = self.event_type_list[self.ui.tw_admin_event_types.currentRow()]
+                etype: EventType = self.event_type_list[
+                    self.ui.tw_admin_event_types.currentRow()
+                ]
                 self.ui.le_admin_event_type_name.setText(etype.name)
                 self.ui.le_admin_search_event_type.setFocus()
         except Exception:
@@ -158,7 +161,7 @@ class CalendarApp(ui_main_window, main_window):
         description = self.ui.user_le_description
         te_start_time = self.ui.user_te_start_time
         te_finish_time = self.ui.user_te_finish_time
-        selected_row = self.ui.tw_user_events.currentRow()
+        selected_row: int = self.ui.tw_user_events.currentRow()
         remember_time = self.ui.user_combo_box_remember_time
 
         if self.apman.user.user_type == self.apman.tools.admin_user:
@@ -179,15 +182,15 @@ class CalendarApp(ui_main_window, main_window):
 
         try:
             if len(self.event_list) > 0 and (0 <= selected_row <= len(self.event_list)):
-                event = self.event_list[selected_row]
-                date = event.date.split("-")
+                event: Event = self.event_list[selected_row]
+                date: list[str] = event.date.split("-")
                 year, mount, day = int(date[0]), int(date[1]), int(date[2])
                 calendar.setSelectedDate(QDate(year, mount, day))
                 combo_box_event_type.setCurrentText(event.event_type.name)
                 description.setText(event.description)
 
-                start_time = (event.start_time).split(":")
-                finis_time = (event.finish_time).split(":")
+                start_time: list[str] = (event.start_time).split(":")
+                finis_time: list[str] = (event.finish_time).split(":")
                 start_hour, start_minute = int(start_time[0]), int(start_time[1])
                 finis_hour, finis_minute = int(finis_time[0]), int(finis_time[1])
                 te_start_time.setTime(QTime(start_hour, start_minute))
@@ -254,7 +257,7 @@ class CalendarApp(ui_main_window, main_window):
             self.ui.tw_admin_event_types, self.event_type_list
         )
 
-        event_type_names = []
+        event_type_names: list[str] = []
         event_cb = self.ui.user_combo_box_event_type
         if self.apman.user.user_type == self.apman.tools.admin_user:
             event_cb = self.ui.admin_combo_box_event_type
@@ -267,9 +270,9 @@ class CalendarApp(ui_main_window, main_window):
     def get_event_list(self) -> None:
         """Sistemdeki etkinlikleri getirip ilgili tabloya yükler."""
         self.event_list.clear()
-        text = self.ui.user_le_description_search.text()
-        user = self.apman.user
-        date = str(self.ui.user_calendar.selectedDate().toPyDate())
+        text: str = self.ui.user_le_description_search.text()
+        user: User = self.apman.user
+        date: str = str(self.ui.user_calendar.selectedDate().toPyDate())
         description = self.ui.user_le_description
         start_time = self.ui.user_te_start_time
         finish_time = self.ui.user_te_finish_time
@@ -278,7 +281,7 @@ class CalendarApp(ui_main_window, main_window):
         if self.apman.user.user_type == self.apman.tools.admin_user:
             text = self.ui.admin_le_description_search.text()
             date = str(self.ui.admin_calendar.selectedDate().toPyDate())
-            user_name = self.ui.admin_combo_box_user_name.currentText()
+            user_name: str = self.ui.admin_combo_box_user_name.currentText()
             user = self.apman.managers.user.get_user(
                 self.apman.managers.user.get_user_id(user_name)
             )
@@ -376,9 +379,9 @@ class CalendarApp(ui_main_window, main_window):
     # CREATE EVENT TYPE
     def create_event_type(self) -> None:
         """Sisteme etkinlik tipi kaydetmeyi sağlar"""
-        name = self.ui.le_admin_event_type_name.text()
+        name: str = self.ui.le_admin_event_type_name.text()
         if not self.apman.managers.event_type.is_event_type(name) and len(name) > 0:
-            etype = self.apman.entities.event_type
+            etype: EventType = EventType()
             etype.name = name
             self.apman.managers.event_type.insert(etype)
             self.get_event_type_list()
@@ -389,7 +392,7 @@ class CalendarApp(ui_main_window, main_window):
 
     # CREATE EVENT
     def create_event(self):
-        event = self.apman.event
+        event: Event = Event()
         event_date = self.ui.user_calendar
         event_description = self.ui.user_le_description
         start_time = self.ui.user_te_start_time
@@ -415,16 +418,16 @@ class CalendarApp(ui_main_window, main_window):
         event.description = event_description.text()
         event.start_time = f"{start_time.text()}:00"
         event.finish_time = f"{finish_time.text()}:00"
-        et_name = cb_et_name.currentText()
-        et_id = self.apman.managers.event_type.get_event_type_id(et_name)
+        et_name: str = cb_et_name.currentText()
+        et_id: int = self.apman.managers.event_type.get_event_type_id(et_name)
         event.event_type.name = et_name
         event.event_type.id = et_id
 
-        if not self.apman.tools.valid_event(self.apman.event):
+        if not self.apman.tools.valid_event(event):
             self.show_statusbar_message(self.apman.tools.str_information_missing)
             self.ui.user_le_description.setFocus()
         else:
-            event = self.apman.tools.fix_event_values(self.apman.event)
+            event = self.apman.tools.fix_event_values(event)
             if not self.apman.managers.event.is_event(event):
                 if self.apman.managers.event.insert(event):
                     self.show_statusbar_message(
@@ -532,9 +535,9 @@ class CalendarApp(ui_main_window, main_window):
     # UPDATE EVENT TYPE
     def update_event_type(self) -> None:
         """Sistemdeki bir etkinlik tipini güncellemeyi sağlar"""
-        etype_count = len(self.event_type_list)
-        name = self.ui.le_admin_event_type_name.text()
-        cur_row = self.ui.tw_admin_event_types.currentRow()
+        etype_count: int = len(self.event_type_list)
+        name: str = self.ui.le_admin_event_type_name.text()
+        cur_row: int = self.ui.tw_admin_event_types.currentRow()
 
         if etype_count > 0 and len(name) > 0 and cur_row >= 0:
             etype = self.event_type_list[cur_row]
@@ -559,12 +562,12 @@ class CalendarApp(ui_main_window, main_window):
     # DELETE EVENT TYPE
     def delete_event_type(self) -> None:
         """Sistemdeki bir etkinlik tipini silmeyi sağlar"""
-        etype_count = len(self.event_type_list)
-        name = self.ui.le_admin_event_type_name.text()
-        cur_row = self.ui.tw_admin_event_types.currentRow()
+        etype_count: int = len(self.event_type_list)
+        name: str = self.ui.le_admin_event_type_name.text()
+        cur_row: int = self.ui.tw_admin_event_types.currentRow()
 
         if etype_count > 0 and len(name) > 0 and cur_row >= 0:
-            etype = self.event_type_list[cur_row]
+            etype: EventType = self.event_type_list[cur_row]
             if self.apman.managers.event_type.delete(etype):
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_delete)
@@ -577,10 +580,11 @@ class CalendarApp(ui_main_window, main_window):
     # DELETE EVENT
     def delete_event(self) -> None:
         """Sistemden bir etkinlik silmeyi sağlar"""
-        selected_row = self.ui.tw_user_events.currentRow()
+        selected_row: int = self.ui.tw_user_events.currentRow()
         if self.apman.user.user_type == self.apman.tools.admin_user:
             selected_row = self.ui.tw_admin_events.currentRow()
-        event = self.event_list[selected_row]
+
+        event: Event = self.event_list[selected_row]
 
         if self.apman.managers.event.delete(event):
             self.show_statusbar_message(
@@ -595,13 +599,13 @@ class CalendarApp(ui_main_window, main_window):
     # DELETE USER
     def delete_user(self) -> None:
         """Sistemden bir kullanıcı silmeyi sağlar"""
-        selected_row = self.ui.tw_admin_users.currentRow()
-        user_count = len(self.userlist)
-        code = self.ui.le_admin_user_account_code.text()
-        code_conf = self.ui.le_admin_user_account_code_valid.text()
+        selected_row: int = self.ui.tw_admin_users.currentRow()
+        user_count: int = len(self.userlist)
+        code: str = self.ui.le_admin_user_account_code.text()
+        code_conf: str = self.ui.le_admin_user_account_code_valid.text()
 
         if user_count > 0 and selected_row >= 0:
-            user = self.userlist[selected_row]
+            user: User = self.userlist[selected_row]
             if not self.apman.tools.valid_str(code, code_conf):
                 self.show_statusbar_message(self.apman.tools.str_code_match_error)
                 self.change_security_codes()
@@ -624,10 +628,10 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     # USER VALUES
     def user_values(self) -> tuple[User, str, str, str]:
-        user = self.apman.entities.user
-        user_pass_conf = ""
-        code = ""
-        code_conf = ""
+        user: User = User()
+        user_pass_conf: str = ""
+        code: str = ""
+        code_conf: str = ""
 
         if self.apman.user.user_type == self.apman.tools.admin_user:
             user.id = self.userlist[self.ui.tw_user_events.currentRow()].id
@@ -658,7 +662,6 @@ class CalendarApp(ui_main_window, main_window):
             code_conf = self.ui.le_user_account_code_valid.text()
 
         else:
-            user = self.apman.entities.user
             user.tc = self.ui.le_creat_acc_tc.text()
             user.user_name = self.ui.le_creat_acc_user_name.text()
             user.first_name = self.ui.le_creat_acc_first_name.text()
@@ -676,11 +679,11 @@ class CalendarApp(ui_main_window, main_window):
 
     # EVENT VALUES
     def event_values(self) -> Event:
-        event = self.apman.event
-        current_row = self.ui.tw_user_events.currentRow()
+        event: Event = Event()
+        current_row: int = self.ui.tw_user_events.currentRow()
         calendar = self.ui.user_calendar
-        event_type_name = self.ui.user_combo_box_event_type.currentText()
-        event_description = self.ui.user_le_description.text()
+        event_type_name: str = self.ui.user_combo_box_event_type.currentText()
+        event_description: str = self.ui.user_le_description.text()
         start_time = str(self.ui.user_te_start_time.time().toPyTime())
         finish_time = str(self.ui.user_te_finish_time.time().toPyTime())
         remember_time = self.ui.user_combo_box_remember_time
@@ -778,12 +781,12 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     def login(self) -> None:
         """Sisteme giriş yapmayı sağlar"""
-        log_user = User()
+        log_user: User = User()
         log_user.user_name = self.ui.le_login_user_name.text()
         log_user.password = self.ui.le_login_passport.text()
 
-        code = self.ui.le_login_code.text()
-        code_valid = self.ui.le_login_code_valid.text()
+        code: str = self.ui.le_login_code.text()
+        code_valid: str = self.ui.le_login_code_valid.text()
 
         if not (
             len(log_user.user_name) >= 1
@@ -810,7 +813,6 @@ class CalendarApp(ui_main_window, main_window):
                 ) and self.apman.tools.valid_str(get_user.password, log_user.password):
                     # -------->> LOGIN <<--------
                     self.apman.user = get_user
-                    self.apman.event.user = get_user
                     self.apman.user.id = self.apman.managers.user.get_user_id(
                         get_user.user_name
                     )
@@ -917,8 +919,8 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     def start_time_change(self) -> None:
         """Etkinlikler için başlangıç-bitiş zamanlarının uyumlu olmasını sağlar"""
-        start_time = self.ui.user_te_start_time.time()
-        finish_time = self.ui.user_te_finish_time.time()
+        start_time: QTime = self.ui.user_te_start_time.time()
+        finish_time: QTime = self.ui.user_te_finish_time.time()
         te_start_time = self.ui.user_te_start_time
         te_finish_time = self.ui.user_te_finish_time
 
@@ -939,8 +941,8 @@ class CalendarApp(ui_main_window, main_window):
 
     def finish_time_change(self) -> None:
         """Etkinlikler için başlangıç-bitiş zamanlarının uyumlu olmasını sağlar"""
-        start_time = self.ui.user_te_start_time.time()
-        finish_time = self.ui.user_te_finish_time.time()
+        start_time: QTime = self.ui.user_te_start_time.time()
+        finish_time: QTime = self.ui.user_te_finish_time.time()
         te_start_time = self.ui.user_te_start_time
 
         if self.apman.user.user_type == self.apman.tools.admin_user:
@@ -1005,6 +1007,7 @@ class CalendarApp(ui_main_window, main_window):
 # * --------------------------------------------------------------
 if __name__ == "__main__":
     import sys
+
     app = application(sys.argv)
     win = CalendarApp()
     win.show()

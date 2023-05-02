@@ -28,8 +28,6 @@ class APP:
         self._pages: PAGES = PAGES()
         self._tools: TOOLS = TOOLS()
         self._user: User = User()
-        self._event_type: EventType = EventType()
-        self._event: Event = Event()
         self._table = TABLEWIDGET()
 
     @property
@@ -41,14 +39,14 @@ class APP:
         """
         return self._manager
 
-    @property
-    def entities(self):
-        """Entity sınıflarını verir
+    # @property
+    # def entities(self):
+    #     """Entity sınıflarını verir
 
-        Returns:
-            entity: entity
-        """
-        return self._entities
+    #     Returns:
+    #         entity: entity
+    #     """
+    #     return self._entities
 
     @property
     def pages(self):
@@ -91,24 +89,6 @@ class APP:
             tablewidget (class): tablo araçları
         """
         return self._table
-
-    @property
-    def event_type(self) -> EventType:
-        """Etkinlik tipi verir
-
-        Returns:
-            EventType: etkinlik titpi
-        """
-        return self._event_type
-
-    @property
-    def event(self) -> Event:
-        """Etkinlik verir
-
-        Returns:
-            Event: etkinlik bilgileri
-        """
-        return self._event
 
 
 class MANAGER:
