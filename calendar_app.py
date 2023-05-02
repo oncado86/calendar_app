@@ -131,7 +131,7 @@ class CalendarApp(ui_main_window, main_window):
                 self.ui.le_admin_user_account_email.setText(user.email)
                 self.ui.le_admin_user_account_address.setPlainText(user.address)
         except Exception:
-            pass
+            self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
         finally:
             self.change_security_codes()
 
@@ -148,7 +148,7 @@ class CalendarApp(ui_main_window, main_window):
                 self.ui.le_admin_event_type_name.setText(etype.name)
                 self.ui.le_admin_search_event_type.setFocus()
         except Exception:
-            pass
+            self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
 
     # FILL EVENT
     def fill_event(self):
@@ -195,7 +195,7 @@ class CalendarApp(ui_main_window, main_window):
                 remember_time.setCurrentText(str(event.remember_time))
 
         except Exception:
-            pass
+            self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
 
     ##################################################################
     # * --------------------------------------------------------------
@@ -999,9 +999,12 @@ class CalendarApp(ui_main_window, main_window):
             self.timer_start()
 
 
+##################################################################
+# * --------------------------------------------------------------
+# * APP RUN
+# * --------------------------------------------------------------
 if __name__ == "__main__":
     import sys
-
     app = application(sys.argv)
     win = CalendarApp()
     win.show()
