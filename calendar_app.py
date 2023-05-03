@@ -297,7 +297,6 @@ class CalendarApp(ui_main_window, main_window):
 
         self.event_list = self.apman.managers.event.get_all_events(user, date, text)
         table.clear()
-        
 
         self.apman.table.set_table(
             table,
@@ -847,6 +846,7 @@ class CalendarApp(ui_main_window, main_window):
         self.ui.tool_box_admin.setCurrentIndex(self.apman.pages.default_page_index)
         self.ui.lbl_user.clear()
         self.ui.lbl_user.setVisible(False)
+        self.apman.user = User()
 
     def go_users_page(self, user: User) -> None:
         """Sisteme giriş yapan kullanıcının ana sayfasına gitmesini sağlar
