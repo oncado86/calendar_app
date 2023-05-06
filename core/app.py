@@ -479,10 +479,10 @@ class TOOLS:
         """
 
         event.user = self.fix_user_values(event.user)
-        event.description = event.description.strip().capitalize()
         event.date = event.date.strip()
         event.start_time = event.start_time.strip()
         event.finish_time = event.finish_time.strip()
+        event.description = event.description.strip().capitalize()
         return event
 
     # ****************************** BOOLEAN *****************************

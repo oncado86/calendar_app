@@ -529,7 +529,6 @@ class CalendarApp(ui_main_window, main_window):
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_update)
                 )
-                # self.get_event_list()
                 self.fill_event()
             else:
                 self.show_statusbar_message(self.apman.tools.str_unexpected_problem)

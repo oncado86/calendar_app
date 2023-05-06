@@ -23,7 +23,7 @@ class EventDal(db_helper):
         Args:
             event (Event): olay
         """
-        self.query = f"INSERT INTO {self.tbl_values.events}({self.tbl_values.u_id}, {self.tbl_values.e_id}, {self.tbl_values.date}, {self.tbl_values.start}, {self.tbl_values.finish}, {self.tbl_values.description}) VALUES({event.user.id}, {event.event_type.id}, '{event.date}', '{event.start_time}', '{event.finish_time}', '{event.description}')"
+        self.query = f"INSERT INTO {self.tbl_values.events}({self.tbl_values.u_id}, {self.tbl_values.e_id}, {self.tbl_values.date}, {self.tbl_values.start}, {self.tbl_values.finish}, {self.tbl_values.description}, {self.tbl_values.reminder_time}) VALUES({event.user.id}, {event.event_type.id}, '{event.date}', '{event.start_time}', '{event.finish_time}', '{event.description}', {event.remember_time})"
 
         with self.connect as cn:
             im = cn.cursor()
@@ -37,7 +37,7 @@ class EventDal(db_helper):
             event (Event): olay bilgisi
         """
 
-        self.query = f"UPDATE {self.tbl_values.events} SET {self.tbl_values.u_id} = {event.user.id}, {self.tbl_values.e_id} = {event.event_type.id}, {self.tbl_values.date} = '{event.date}', {self.tbl_values.start} = '{event.start_time}', {self.tbl_values.finish} = '{event.finish_time}', {self.tbl_values.description} = '{event.description}' WHERE {self.tbl_values.id} = {event.id}"
+        self.query = f"UPDATE {self.tbl_values.events} SET {self.tbl_values.u_id} = {event.user.id}, {self.tbl_values.e_id} = {event.event_type.id}, {self.tbl_values.date} = '{event.date}', {self.tbl_values.start} = '{event.start_time}', {self.tbl_values.finish} = '{event.finish_time}', {self.tbl_values.description} = '{event.description}', {self.tbl_values.reminder_time} = {event.remember_time} WHERE {self.tbl_values.id} = {event.id}"
 
         with self.connect as cn:
             im = cn.cursor()
@@ -142,4 +142,3 @@ class EventDal(db_helper):
             im = cn.cursor()
             im.execute(self.query)
             return im.fetchone()[0]
-
