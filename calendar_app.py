@@ -122,6 +122,7 @@ class CalendarApp(ui_main_window, main_window):
             if len(self.userlist) > 0 and (
                 0 <= self.ui.tw_admin_users.currentRow() <= len(self.userlist)
             ):
+                # -------->> FILL USER <<--------
                 user: User = self.userlist[self.ui.tw_admin_users.currentRow()]
                 self.ui.le_admin_user_account_tc.setText(user.tc)
                 self.ui.le_admin_user_account_user_name.setText(user.user_name)
@@ -145,6 +146,7 @@ class CalendarApp(ui_main_window, main_window):
                 <= self.ui.tw_admin_event_types.currentRow()
                 <= len(self.event_type_list)
             ):
+                # -------->> FILL EVENT TYPE <<--------
                 etype: EventType = self.event_type_list[
                     self.ui.tw_admin_event_types.currentRow()
                 ]
@@ -181,6 +183,7 @@ class CalendarApp(ui_main_window, main_window):
         self.remember_events()
 
         try:
+            # -------->> FILL EVENT <<--------
             if len(self.event_list) > 0 and (0 <= selected_row <= len(self.event_list)):
                 event: Event = self.event_list[selected_row]
                 date: list[str] = event.date.split("-")
@@ -430,6 +433,7 @@ class CalendarApp(ui_main_window, main_window):
             event = self.apman.tools.fix_event_values(event)
             if not self.apman.managers.event.is_event(event):
                 if self.apman.managers.event.insert(event):
+                    # -------->> CREATE EVENT <<--------
                     self.show_statusbar_message(
                         self.apman.tools.str_successful(self.apman.tools.str_create)
                     )
@@ -545,6 +549,7 @@ class CalendarApp(ui_main_window, main_window):
                 self.apman.managers.event_type.is_event_type(etype.name)
                 and len(name) > 0
             ):
+                # -------->> UPDATE EVENT TYPE <<--------
                 etype.name = name
                 self.apman.managers.event_type.update(etype)
                 self.get_event_type_list()
@@ -569,6 +574,7 @@ class CalendarApp(ui_main_window, main_window):
         if etype_count > 0 and len(name) > 0 and cur_row >= 0:
             etype: EventType = self.event_type_list[cur_row]
             if self.apman.managers.event_type.delete(etype):
+                # -------->> DELETE EVENT TYPE <<--------
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_delete)
                 )
@@ -587,6 +593,7 @@ class CalendarApp(ui_main_window, main_window):
         event: Event = self.event_list[selected_row]
 
         if self.apman.managers.event.delete(event):
+            # -------->> DELETE EVENT <<--------
             self.show_statusbar_message(
                 self.apman.tools.str_successful(self.apman.tools.str_delete)
             )
@@ -611,10 +618,13 @@ class CalendarApp(ui_main_window, main_window):
                 self.change_security_codes()
                 self.ui.le_admin_user_account_code.setFocus()
             elif self.apman.managers.user.delete(user):
+                # -------->> DELETE ACCOUNT <<--------
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_delete)
                 )
                 self.get_user_list()
+                self.change_security_codes()
+                self.ui.le_admin_user_account_code.clear()
             else:
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(
@@ -628,11 +638,17 @@ class CalendarApp(ui_main_window, main_window):
     # * --------------------------------------------------------------
     # USER VALUES
     def user_values(self) -> tuple[User, str, str, str]:
+        """Kullanıcı verilerini UI'dan alrak geri verir
+
+        Returns:
+            tuple[User, str, str, str]: kullanıcı verileri, şifre doğrulaması, güvenlik kodu, güvenlik kodu doğrulaması
+        """
         user: User = User()
         user_pass_conf: str = ""
         code: str = ""
         code_conf: str = ""
 
+        # -------->> VALUES FOR ADMIN <<--------
         if self.apman.user.user_type == self.apman.tools.admin_user:
             user.id = self.userlist[self.ui.tw_user_events.currentRow()].id
             user.tc = self.ui.le_admin_user_account_tc.text()
@@ -647,6 +663,7 @@ class CalendarApp(ui_main_window, main_window):
             code = self.ui.le_admin_user_account_code.text()
             code_conf = self.ui.le_admin_user_account_code_valid.text()
 
+        # -------->> VALUES FOR USER <<--------
         elif self.apman.user.user_type == self.apman.tools.basic_user:
             user.id = self.apman.user.id
             user.tc = self.ui.le_user_account_tc.text()
@@ -660,7 +677,7 @@ class CalendarApp(ui_main_window, main_window):
             user.address = self.ui.le_user_account_address.toPlainText()
             code = self.ui.le_user_account_code.text()
             code_conf = self.ui.le_user_account_code_valid.text()
-
+        # -------->> VALUES FOR NEW USER <<--------
         else:
             user.tc = self.ui.le_creat_acc_tc.text()
             user.user_name = self.ui.le_creat_acc_user_name.text()
@@ -671,7 +688,6 @@ class CalendarApp(ui_main_window, main_window):
             user_pass_conf = self.ui.le_creat_acc_password_conf.text()
             user.phone = self.ui.le_creat_acc_phone.text()
             user.address = self.ui.le_creat_acc_address.toPlainText()
-
             code = self.ui.le_creat_acc_code.text()
             code_conf = self.ui.le_creat_acc_code_valid.text()
 
@@ -824,8 +840,6 @@ class CalendarApp(ui_main_window, main_window):
                     self.ui.btn_log_out.setVisible(True)
                     self.ui.lbl_user.setText(get_user.user_name)
                     self.ui.lbl_user.setVisible(True)
-                    # ----------------------------
-
                     self.go_users_page(get_user)
                 else:
                     self.show_statusbar_message(
@@ -859,16 +873,16 @@ class CalendarApp(ui_main_window, main_window):
         finis_time = QTime(self.apman.tools.hour, self.apman.tools.minute + 2)
         start_time = QTime(QTime(self.apman.tools.hour, self.apman.tools.minute + 1))
 
+        # -------->> PAGE FOR ADMIN <<--------
         if user.user_type == self.apman.tools.admin_user:
             self.ui.page_widget.setCurrentIndex(self.apman.pages.admin)
             self.get_user_list()
-
             self.ui.admin_te_finish_time.setTime(finis_time)
             self.ui.admin_te_start_time.setTime(start_time)
-
             self.fill_event()
             self.remember_events()
 
+        # -------->> PAGE FOR USER <<--------
         else:
             self.ui.page_widget.setCurrentIndex(self.apman.pages.user)
             self.ui.le_user_account_tc.setText(user.tc)
@@ -902,6 +916,7 @@ class CalendarApp(ui_main_window, main_window):
         self.ui.le_creat_acc_code_valid.clear()
 
     def clear_code_valid(self) -> None:
+        """Güvenlik doğrulama kodlarını temizler"""
         self.ui.le_login_code_valid.clear()
         self.ui.le_creat_acc_code_valid.clear()
         self.ui.le_user_account_code_valid.clear()
@@ -993,7 +1008,6 @@ class CalendarApp(ui_main_window, main_window):
         """
         if len(self.timer_event_list) > 0:
             self.finished_event = self.timer_event_list.pop(0)
-
             self.finished_event.event_type.name = (
                 self.apman.managers.event_type.get_event_type_name(
                     self.finished_event.event_type.id
