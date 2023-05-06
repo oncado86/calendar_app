@@ -624,7 +624,7 @@ class CalendarApp(ui_main_window, main_window):
                 )
                 self.get_user_list()
                 self.change_security_codes()
-                self.ui.le_admin_user_account_code.clear()
+                self.ui.le_admin_user_account_code_valid.clear()
             else:
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(
