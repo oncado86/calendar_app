@@ -17,7 +17,7 @@ class SqliteDbHelper(ISqliteDbHelper):
 
     def __init__(self) -> None:
         super().__init__()
-        self._db_path = f"{os.getcwd()}{os.sep}data{os.sep}takvim_uygulamasi.db"
+        self._db_path = f"{os.getcwd()}{os.sep}data{os.sep}calender_app.db"
         self._sql_query = ""
         self._db_tables = DbTabes()
 
