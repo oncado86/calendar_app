@@ -199,6 +199,15 @@ class TOOLS:
         return "Doğrulama kodu eşleşmiyor"
 
     @property
+    def str_admin_cannot_deleted(self) -> str:
+        """Admin yetkisi varken bir kullanıcı silinemez
+
+        Returns:
+            str: hata mesajı
+        """
+        return "Admin yetkisi varken bir kullanıcı silinemez"
+
+    @property
     def str_user_not_found(self) -> str:
         """Bu kullanıcı adı ya da TC No bulunamadı
 

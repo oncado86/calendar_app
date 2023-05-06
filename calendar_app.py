@@ -529,6 +529,7 @@ class CalendarApp(ui_main_window, main_window):
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_update)
                 )
+                # self.get_event_list()
                 self.fill_event()
             else:
                 self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
@@ -614,8 +615,12 @@ class CalendarApp(ui_main_window, main_window):
                 self.show_statusbar_message(self.apman.tools.str_code_match_error)
                 self.change_security_codes()
                 self.ui.le_admin_user_account_code.setFocus()
+            elif user.user_type == self.apman.tools.admin_user:
+                self.show_statusbar_message(self.apman.tools.str_admin_cannot_deleted)
+                self.change_security_codes()
+                self.ui.le_admin_user_account_code_valid.clear()
+            # -------->> DELETE ACCOUNT <<--------
             elif self.apman.managers.user.delete(user):
-                # -------->> DELETE ACCOUNT <<--------
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(self.apman.tools.str_delete)
                 )
@@ -623,6 +628,8 @@ class CalendarApp(ui_main_window, main_window):
                 self.change_security_codes()
                 self.ui.le_admin_user_account_code_valid.clear()
             else:
+                self.change_security_codes()
+                self.ui.le_admin_user_account_code_valid.clear()
                 self.show_statusbar_message(
                     self.apman.tools.str_successful(
                         self.apman.tools.str_unexpected_problem
@@ -692,7 +699,6 @@ class CalendarApp(ui_main_window, main_window):
 
     # EVENT VALUES
     def event_values(self) -> Event:
-        event: Event = Event()
         current_row: int = self.ui.tw_user_events.currentRow()
         calendar = self.ui.user_calendar
         event_type_name: str = self.ui.user_combo_box_event_type.currentText()
@@ -710,7 +716,7 @@ class CalendarApp(ui_main_window, main_window):
             finish_time = str(self.ui.admin_te_finish_time.time().toPyTime())
             remember_time = self.ui.admin_combo_box_remember_time
 
-        event.id = self.event_list[current_row].id
+        event = self.event_list[current_row]
         event.date = str(calendar.selectedDate().toPyDate())
         event.event_type.name = event_type_name
         event.event_type.id = self.apman.managers.event_type.get_event_type_id(
