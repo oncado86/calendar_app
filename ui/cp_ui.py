@@ -26,6 +26,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.layout_header = QtWidgets.QHBoxLayout()
         self.layout_header.setObjectName("layout_header")
+        self.layout_header.setContentsMargins(10, 3, 10, 3)
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font = QtGui.QFont()
