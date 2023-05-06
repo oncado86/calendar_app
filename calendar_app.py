@@ -524,17 +524,14 @@ class CalendarApp(ui_main_window, main_window):
             self.show_statusbar_message(self.apman.tools.str_event_description_missing)
             self.ui.user_le_description.setFocus()
         else:
-            if self.apman.managers.event.is_event(event):
-                # -------->> UPDATE EVENT <<--------
-                if self.apman.managers.event.update(event):
-                    self.show_statusbar_message(
-                        self.apman.tools.str_successful(self.apman.tools.str_update)
-                    )
-                    self.fill_event()
-                else:
-                    self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
+            # -------->> UPDATE EVENT <<--------
+            if self.apman.managers.event.update(event):
+                self.show_statusbar_message(
+                    self.apman.tools.str_successful(self.apman.tools.str_update)
+                )
+                self.fill_event()
             else:
-                self.show_statusbar_message(self.apman.tools.str_event_overlaps)
+                self.show_statusbar_message(self.apman.tools.str_unexpected_problem)
 
     # UPDATE EVENT TYPE
     def update_event_type(self) -> None:
