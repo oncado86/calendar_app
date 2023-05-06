@@ -39,7 +39,7 @@ class EventTypeDal(db_helper):
             im.execute(self.query)
             cn.commit()
 
-    def get_event_type_id(self, event_name: str):
+    def get_event_type_id(self, event_name: str) -> int:
         """Veritabanından olay adı ile etkinliğin id bilgisini getirmeyi sağlar
 
         Args:
@@ -49,6 +49,22 @@ class EventTypeDal(db_helper):
             int: olay tip id
         """
         self.query = f"SELECT {self.tbl_values.id} FROM {self.tbl_values.event_types} WHERE {self.tbl_values.name}='{event_name}'"
+
+        with self.connect as cn:
+            im = cn.cursor()
+            im.execute(self.query)
+            return im.fetchone()[0]
+
+    def get_event_type_name(self, event_id: int) -> str:
+        """Veritabanından olay id bilgisi ile etkinliğin isim bilgisini getirmeyi sağlar
+
+        Args:
+            event_id (id): olay tip id
+
+        Returns:
+            str: olay tip ismi
+        """
+        self.query = f"SELECT {self.tbl_values.name} FROM {self.tbl_values.event_types} WHERE {self.tbl_values.id}='{event_id}'"
 
         with self.connect as cn:
             im = cn.cursor()

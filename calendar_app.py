@@ -993,6 +993,12 @@ class CalendarApp(ui_main_window, main_window):
         """
         if len(self.timer_event_list) > 0:
             self.finished_event = self.timer_event_list.pop(0)
+            
+            self.finished_event.event_type.name = (
+                self.apman.managers.event_type.get_event_type_name(
+                    self.finished_event.event_type.id
+                )
+            )
             now_time = self.apman.tools.time
             event_start = self.finished_event.start_time
             time_difference = self.apman.tools.time_difference(now_time, event_start)

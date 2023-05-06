@@ -63,20 +63,33 @@ class EventTypeManager(IEventTypeManager):
         except Exception:
             return False
 
-    def get_event_type_id(self, event_type_name: str):
+    def get_event_type_id(self, event_type_name: str) -> int:
         """Olay tipinin id bilgisini getirir
 
         Args:
             event_name (str): olay adı
 
         Returns:
-            int: kullanıcı id bilgisi | kullanıcı yoksa -1
+            int: etkinlik id bilgisi | kullanıcı yoksa -1
         """
         e_type = EventType()
-        e_type.name = event_type_name
+        e_type.name = event_type_name.lower().title()
         if self._etdal.is_event_type(e_type.name):
             return self._etdal.get_event_type_id(e_type.name)
         return -1
+
+    def get_event_type_name(self, event_id: int) -> str:
+        """Olay tipinin isim bilgisini getirir
+
+        Args:
+            event_id (int): olay id bilgisi
+
+        Returns:
+            str: etkinlik isim bilgisi | etkinlik yoksa ""
+        """
+        e_type = EventType()
+        e_type.id = event_id
+        return self._etdal.get_event_type_name(e_type.id)
 
     def get_all_event_types(self, name="") -> list[EventType]:
         """Veritabanındaki tüm olay tiplerini verir

@@ -24,6 +24,12 @@ class IEventTypeManager:
         raise NotImplementedError(
             "This is not implemented 'get_event_type_id' from IEventTypeManager"
         )
+    
+    @interface
+    def get_event_type_name(self, event_name: str):
+        raise NotImplementedError(
+            "This is not implemented 'get_event_type_id' from IEventTypeManager"
+        )
 
     @interface
     def get_all_event_types(self):
